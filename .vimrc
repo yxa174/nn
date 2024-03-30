@@ -36,7 +36,8 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 map <F5> :botright terminal python %<CR>
 
 " Закрытие терминала при нажатии клавиши
-map <F6> <C-w>:q<CR>
+map <F6> <C-w>:q<CR><C-w><C-w>
+"map <F6> <C-w><C-w>:q<CR>
 " Открывать терминал снизу слева
 " autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>:term<CR>
 " Закрывать терминал по нажатию F9
