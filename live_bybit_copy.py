@@ -13,12 +13,13 @@
     Github: https://github.com/WISEPLAT
     Telegram: https://t.me/OlegSh777
 """
-import pybit as aiomoex
+
+from pybit.unified_trading import HTTP
 import asyncio
 import os.path
 from unix_date import first_numbers
 import aiohttp
-# import aiomoex
+import aiomoex
 import logging
 import functions
 import functions_nn
@@ -74,11 +75,21 @@ class HackathonFinamStrategy:
     async def get_all_candles(self, start, end):
         """Функция получения свечей с MOEX."""
         tf = functions.get_timeframe_moex(self.timeframe)
-        #data = await aiomoex.get_market_candles(self.session, self.ticker, interval=tf, start=start, end=end)  # M10
+        # data = await aiomoex.get_market_candles(self.session, self.ticker, interval=tf, start=start, end=end)  # M10
+#####   
+        # session = HTTP(testnet=True)
+        # data = session.get_kline(
+        #     category="inverse",
+        #     symbol=self.ticker,
+        #     interval=tf,
+        #     start=datetime.now,
+        #     end=end,
+        #     )['result']['list']
         data = first_numbers
         
         df = pd.DataFrame(data)
         df['datetime'] = pd.to_datetime(df['begin'], format='%Y-%m-%d %H:%M:%S')
+        # breakpoint()
         # для M1, M10, H1 - приводим дату свечи в правильный вид
         if tf in [1, 10, 60]:
             df['datetime'] = df['datetime'].apply(lambda x: x + timedelta(minutes=tf))
@@ -90,12 +101,20 @@ class HackathonFinamStrategy:
 
     async def get_historical_data(self, model, fp_provider):
         """Получение исторических данных по тикеру."""
+        
         logger.debug("Получение исторических данных по тикеру: %s", self.ticker)
-        start = (datetime.now().date()-timedelta(days=self.days_back)).strftime("%Y-%m-%d")
-        end = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(start, end)
+        # start = (datetime.now().date()-timedelta(days=self.days_back)).strftime("%Y-%m-%d")
+        date_str = first_numbers[0]['end'][:10]
+        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+        new_date_obj = date_obj - timedelta(days=1)
+        updated_date_str = new_date_obj.strftime('%Y-%m-%d')
+        start = updated_date_str
+        #end = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        end = first_numbers[-1]['end']
+        # print(start, end)
         _candles = await self.get_all_candles(start=start, end=end)
         # print(_candles)
+        # breakpoint()
         for candle in _candles:
             if candle not in self.candles:
                 self.candles.append(candle)
@@ -109,7 +128,7 @@ class HackathonFinamStrategy:
         """В live проверяем, можем ли мы открыть позицию,
         если нейросеть на текущих данных выдаст класс 1"""
         # создаем текущую картинку для отправки в нейросеть
-
+        # breakpoint()
         df = pd.DataFrame(self.candles, columns=["datetime", "open", "high", "low", "close", "volume"])
         df['datetime'] = pd.to_datetime(df['datetime'], format='%Y-%m-%d %H:%M:%S')
         # print(df)
