@@ -26,7 +26,7 @@ while end_s < 1710926293000:
 		start=1610922694000,
 		end=end_s,
 		)
-	end_s += 100000000
+	end_s += 86400000
 # Преобразование данных в формат DataFrame библиотеки Pandas
 
 	my_list = response['result']['list']
