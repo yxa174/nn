@@ -34,7 +34,7 @@ while end_s < 1710926293000:
 	first_numbers = [(datetime.utcfromtimestamp(int(sublist[0]) / 1000).strftime('%Y-%m-%d %H:%M:%S'),float(sublist[1]), float(sublist[2]), float(sublist[3]), float(sublist[4]), round(float(sublist[5]))) for sublist in my_list]
 	df = pd.DataFrame(first_numbers)
 	dfd = df.reindex(index=df.index[::-1])
-	dfd.to_csv('csv/{}_M1.csv', mode='a', header=False, index=False)
+	dfd.to_csv('csv/{}_M1.csv'.format(coin), mode='a', header=False, index=False)
 	print(df)
 	
 #df.to_csv('data.csv', index=False)
