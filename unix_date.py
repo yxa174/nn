@@ -1,16 +1,18 @@
 #api_key = 'VTes1twYO08Ps9zJRz'
 #api_secret = '1wMh5bh4FyuQGxOAz9eSazgXDQbKwNvSCgKF'
 import time
+import my_config.trade_config
 from pybit.unified_trading import HTTP
 session = HTTP(testnet=True)
 import pandas as pd
 from datetime import datetime
 from pprint import pprint as pp
+coin = my_config.trade_config.Config.training_NN.pop()
 unix_time = (int(time.time())*1000)
 end_s = (unix_time - 86400000) # минус 1 сутки
 # Выполнение запроса для получения свечей 
 from pybit.unified_trading import HTTP
-breakpoint()
+# breakpoint()
 while end_s < unix_time:  
 	current_time_unix = datetime.now().timestamp()
 
@@ -24,7 +26,7 @@ while end_s < unix_time:
 	
 	response = session.get_kline(
 		category="inverse",
-		symbol="ETHUSD",
+		symbol="{}".format(coin),
 		interval=1,
 		start=end_s,
 		end=unix_time,
