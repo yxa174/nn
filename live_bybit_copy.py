@@ -77,14 +77,7 @@ class HackathonFinamStrategy:
         tf = functions.get_timeframe_moex(self.timeframe)
         # data = await aiomoex.get_market_candles(self.session, self.ticker, interval=tf, start=start, end=end)  # M10
 #####   
-        # session = HTTP(testnet=True)
-        # data = session.get_kline(
-        #     category="inverse",
-        #     symbol=self.ticker,
-        #     interval=tf,
-        #     start=datetime.now,
-        #     end=end,
-        #     )['result']['list']
+
         data = first_numbers
         
         df = pd.DataFrame(data)

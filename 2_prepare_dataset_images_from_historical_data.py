@@ -88,4 +88,5 @@ if __name__ == "__main__":
                         _path = os.path.join(_path, "0")
 
                     img.save(os.path.join(_path, _filename))
-                print(ticker, _date)
+                print(ticker, _date, end='\r')
+                

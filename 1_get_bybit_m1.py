@@ -2,10 +2,12 @@
 #api_secret = '1wMh5bh4FyuQGxOAz9eSazgXDQbKwNvSCgKF'
 from pybit.unified_trading import HTTP
 session = HTTP(testnet=True)
+import my_config.trade_config
 import pandas as pd
 from datetime import datetime
 import os
 end_s = 1611022694000
+coin = my_config.trade_config.Config.training_NN.pop()
 file_path = 'csv/ETHUSD_M1.csv'
     
 if os.path.exists(file_path):
@@ -19,7 +21,7 @@ while end_s < 1710926293000:
 	session = HTTP(testnet=True)
 	response = session.get_kline(
 		category="inverse",
-		symbol="ETHUSD",
+		symbol="{}".format(coin),
 		interval=1,
 		start=1610922694000,
 		end=end_s,
