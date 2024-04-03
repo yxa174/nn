@@ -76,10 +76,7 @@ class HackathonFinamStrategy:
         """Функция получения свечей с MOEX."""
         tf = functions.get_timeframe_moex(self.timeframe)
         # data = await aiomoex.get_market_candles(self.session, self.ticker, interval=tf, start=start, end=end)  # M10
-#####   
-
         data = first_numbers
-        
         df = pd.DataFrame(data)
         df['datetime'] = pd.to_datetime(df['begin'], format='%Y-%m-%d %H:%M:%S')
         # breakpoint()
